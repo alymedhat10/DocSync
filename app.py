@@ -13,11 +13,16 @@ from google.oauth2 import service_account
 LOCATION = "us-central1"
 UID = datetime.now().strftime("%m%d%H%M")
 PROJECT_ID = 'tokyo-country-189103'
+<<<<<<< HEAD
 GOOGLE_APPLICATION_CREDENTIALS = os.path.join(os.path.dirname(__file__), 'Key', 'tokyo-country-189103-4ce23189dd39.json')
 
 # Check if the file exists
 if not os.path.isfile(GOOGLE_APPLICATION_CREDENTIALS):
     raise FileNotFoundError(f"Service account key not found at {GOOGLE_APPLICATION_CREDENTIALS}")
+=======
+GOOGLE_APPLICATION_CREDENTIALS = r"C:\Users\DELL\Python projects\DocSync\V2\Key\tokyo-country-189103-4ce23189dd39.json"
+os.environ['PATH'] += os.pathsep + r'C:\Users\DELL\AppData\Local\Google\Cloud SDK\google-cloud-sdk\bin'
+>>>>>>> f88e10bd603a15c0ef026dd7db7d0e611d64b3bf
 
 # Authenticate using service account
 credentials = service_account.Credentials.from_service_account_file(
@@ -46,6 +51,7 @@ def compare_requirements(new_df, old_df):
     new_df = new_df.assign(embedding=get_embeddings_wrapper(list(new_df.Requirement)))
     old_df = old_df.assign(embedding=get_embeddings_wrapper(list(old_df.Requirement)))
 
+<<<<<<< HEAD
     new_embeddings = np.array(new_df['embedding'].tolist())
     old_embeddings = np.array(old_df['embedding'].tolist())
 
@@ -54,6 +60,20 @@ def compare_requirements(new_df, old_df):
     most_similar_indices = np.argmax(similarity_matrix, axis=1)
     most_similar_scores = np.max(similarity_matrix, axis=1)
 
+=======
+    # Convert the embeddings to numpy arrays for similarity calculation
+    new_embeddings = np.array(new_df['embedding'].tolist())
+    old_embeddings = np.array(old_df['embedding'].tolist())
+
+    # Calculate the similarity matrix using dot product
+    similarity_matrix = np.dot(new_embeddings, old_embeddings.T)
+
+    # Find the most similar requirement in the old excel for each requirement in the new excel
+    most_similar_indices = np.argmax(similarity_matrix, axis=1)
+    most_similar_scores = np.max(similarity_matrix, axis=1)
+
+    # Create the comparison dataframe
+>>>>>>> f88e10bd603a15c0ef026dd7db7d0e611d64b3bf
     comparison_df = pd.DataFrame({
         'new_requirement_id': new_df['Requirement ID'],
         'new_requirement_text': new_df['Requirement'],
